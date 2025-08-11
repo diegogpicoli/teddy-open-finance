@@ -1,3 +1,12 @@
+import { Navigate } from "react-router-dom";
+import LoginForm from "../components/login-form";
+
 export default function LoginPage() {
-  return <h1 className="text-2xl font-bold">Página de Login</h1>;
+  const storedName = localStorage.getItem("teddy-open-finance:name");
+
+  if (storedName) {
+    return <Navigate to="/" replace />;
+  }
+
+  return <LoginForm />;
 }
