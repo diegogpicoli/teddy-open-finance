@@ -198,15 +198,15 @@ export const masks = {
   },
   currency: (value: string) => {
     const pure = getPureNumbers(value);
-    if (!pure) return "R$ 0";
-
-    // Sem centavos: usa diretamente o número
-    const price = Number(pure).toLocaleString("pt-BR", {
+    const price = (Number(pure) / 100).toLocaleString("pt-BR", {
       style: "currency",
       currency: "BRL",
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
+      minimumFractionDigits: 2,
     });
+
+    if (price.length > 0) return price;
+
+    if (price.length === 0) return "";
 
     return price;
   },

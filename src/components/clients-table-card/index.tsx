@@ -13,10 +13,18 @@ export default function ClientsTableCard({ client }: TClientsTableCardProps) {
       <div className="flex flex-col justify-center items-center">
         <h3 className="font-bold text-lg">{client.name}</h3>
         <p className="text-gray-700">
-          Salário: R${client.salary.toLocaleString("pt-BR")}
+          Salário: R${" "}
+          {(client.salary / 100).toLocaleString("pt-BR", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })}
         </p>
         <p className="text-gray-700">
-          Empresa: R${client.companyValuation.toLocaleString("pt-BR")}
+          Empresa: R$
+          {(client.companyValuation / 100).toLocaleString("pt-BR", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })}
         </p>
       </div>
       <div className="flex justify-between items-center px-4 mt-3">
