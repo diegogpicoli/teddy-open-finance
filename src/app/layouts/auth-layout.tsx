@@ -1,6 +1,8 @@
 // src/app/layouts/RootLayout.tsx
 import { Header } from "@/components/header";
+import { Shell } from "@/components/ui/shell";
 import { Navigate, Outlet } from "react-router-dom";
+import { Fragment } from "react/jsx-runtime";
 
 export default function AuthLayout() {
   const storedName = localStorage.getItem("teddy-open-finance:name");
@@ -10,9 +12,11 @@ export default function AuthLayout() {
   }
 
   return (
-    <div>
+    <Fragment>
       <Header />
-      <Outlet />
-    </div>
+      <Shell>
+        <Outlet />
+      </Shell>
+    </Fragment>
   );
 }
