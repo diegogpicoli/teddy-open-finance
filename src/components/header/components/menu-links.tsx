@@ -4,7 +4,7 @@ import { useMenu } from "../hooks/use-menu";
 export const MenuLinks = () => {
   const { signOut, pathName, linksMenu } = useMenu();
   return (
-    <nav className="hidden md:flex items-center gap-8 text-lg ">
+    <nav className="hidden lg:flex items-center gap-8 text-lg ">
       {linksMenu.map(({ href, label }) => (
         <a
           key={href}
