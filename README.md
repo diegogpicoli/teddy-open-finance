@@ -1,4 +1,4 @@
-# 🐻 Teddy Open Finance
+# Teddy Open Finance
 
 Aplicação web para gerenciamento de clientes e informações financeiras, construída em **React + TypeScript**, com **Vite**, **TailwindCSS** e **React Query**.
 
