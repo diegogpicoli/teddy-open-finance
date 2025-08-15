@@ -1,4 +1,10 @@
-import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import useCreateOrUpdateClient from "../hooks/use-create-or-update-client";
 import { Button } from "@/components/ui/button";
@@ -28,6 +34,7 @@ export default function ClientForm() {
                   {...field}
                 />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -45,6 +52,7 @@ export default function ClientForm() {
                   {...field}
                 />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -62,6 +70,7 @@ export default function ClientForm() {
                   {...field}
                 />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
