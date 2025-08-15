@@ -9,7 +9,7 @@ export default function ClientForm() {
     form,
     submit,
     isLoadingGetClient,
-    clientSelected,
+    clientSelectedForEdit,
     isLoadingCreateOrUpdate,
   } = useCreateOrUpdateClient();
   return (
@@ -65,13 +65,16 @@ export default function ClientForm() {
             </FormItem>
           )}
         />
-        <Button className="w-full h-10 rounded-xs">
+        <Button
+          disabled={isLoadingCreateOrUpdate}
+          className="w-full h-10 rounded-xs"
+        >
           {isLoadingCreateOrUpdate ? (
             <div className="flex justify-center items-center gap-2 mr-2">
               <Loader2 className="animate-spin" />
-              {clientSelected ? "Editando cliente..." : "Criando cliente..."}
+              Salvando...
             </div>
-          ) : clientSelected ? (
+          ) : clientSelectedForEdit ? (
             "Editar cliente"
           ) : (
             "Criar cliente"

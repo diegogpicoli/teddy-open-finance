@@ -13,10 +13,15 @@ import { getPureNumbers, masks } from "@/lib/masks";
 import { useClientsContext } from "../context/clients-context";
 import type { TClient } from "@/types/clients";
 import { useEffect } from "react";
+import { toast } from "sonner";
 
 export default function useCreateOrUpdateClient() {
-  const { createOrUpdateUserModalRef, clientSelected, handleSelectClient } =
-    useClientsContext();
+  const {
+    createOrUpdateUserModalRef,
+    clientSelectedForEdit,
+    handleCloseCreateOrUpdateModal,
+    updateClientStorage,
+  } = useClientsContext();
   const form = useForm<TCreateOrUpdateClientSchema>({
     resolver: zodResolver(createOrUpdateClientSchema),
     defaultValues: {
@@ -43,13 +48,16 @@ export default function useCreateOrUpdateClient() {
         return await apiPost(`/users`, dataToSend);
       },
       onSuccess: () => {
+        toast.success("Cliente criado com sucesso!");
         queryClient.refetchQueries({
           queryKey: ["users"],
         });
-        handleSelectClient(undefined);
         createOrUpdateUserModalRef.current?.close();
+        handleCloseCreateOrUpdateModal();
       },
-      onError: () => {},
+      onError: () => {
+        toast.error("Não foi possível criar o cliente!");
+      },
     });
 
   const { mutate: updateClient, isPending: isPendingUpdateClient } =
@@ -64,26 +72,34 @@ export default function useCreateOrUpdateClient() {
           salary: Number(getPureNumbers(salary)),
           companyValuation: Number(getPureNumbers(companyValuation)),
         };
-        return await apiPatch(`/users/${clientSelected?.id}`, dataToSend);
+        return await apiPatch(
+          `/users/${clientSelectedForEdit?.id}`,
+          dataToSend
+        );
       },
-      onSuccess: () => {
+      onSuccess: (data) => {
+        toast.success("Cliente atualizado com sucesso!");
         queryClient.refetchQueries({
           queryKey: ["users"],
         });
-        handleSelectClient(undefined);
+
+        updateClientStorage(data as TClient);
         createOrUpdateUserModalRef.current?.close();
+        handleCloseCreateOrUpdateModal();
       },
-      onError: () => {},
+      onError: () => {
+        toast.error("Não foi possível atualizar o cliente!");
+      },
     });
 
   const { data: client, isLoading: isLoadingGetClient } = useQuery<TClient>({
-    queryKey: ["users-id", clientSelected],
-    queryFn: () => apiGet<TClient>(`/users/${clientSelected?.id}`),
-    enabled: !!clientSelected?.id,
+    queryKey: ["users-id", clientSelectedForEdit],
+    queryFn: () => apiGet<TClient>(`/users/${clientSelectedForEdit?.id}`),
+    enabled: !!clientSelectedForEdit?.id,
   });
 
   const submit = (data: TCreateOrUpdateClientSchema) => {
-    if (clientSelected) {
+    if (clientSelectedForEdit) {
       return updateClient(data);
     }
     createClient(data);
@@ -104,6 +120,6 @@ export default function useCreateOrUpdateClient() {
     submit,
     isLoadingCreateOrUpdate: isPendingCreateClient || isPendingUpdateClient,
     isLoadingGetClient,
-    clientSelected,
+    clientSelectedForEdit,
   };
 }

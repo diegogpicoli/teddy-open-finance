@@ -20,6 +20,7 @@ export default function ClientsTableHeader() {
         <SelectInput
           onValueChange={(value) =>
             setSearchPagination({
+              page: "1",
               perPage: value,
             })
           }
